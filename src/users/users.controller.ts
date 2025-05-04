@@ -1,34 +1,22 @@
-import { Controller, Delete, Get, Patch, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Patch, Post, Put } from '@nestjs/common';
 import { UsersService } from './users.service';
+import { CreateUsersDto } from './users.dto';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller()
+@ApiTags("/users")
 export class UsersController {
 
     constructor(private readonly usersService: UsersService){}
 
     @Get("/users")
     getUsers() {
-        return this.usersService.getUsers();
+        return this.usersService.readUsers();
     }
 
     @Post("/users")
-    createTask(){
-        return "Creando Tareas"
-    }
-
-    @Put("/users") //Cambiar toda la tarea
-    updateTask(){
-        return "Actualizando Tareas"
-    }
-
-    @Delete("/users")
-    deleteTask(){
-        return "Eliminando Tareas"
-    }
-
-    @Patch("/users") //Actualiza solo una parte de la tarea
-    patchTask(){
-        return "Actualizando Tareas"
+    createUser(@Body() create: CreateUsersDto) {
+        return this.usersService.createUser(create);
     }
 
 }
